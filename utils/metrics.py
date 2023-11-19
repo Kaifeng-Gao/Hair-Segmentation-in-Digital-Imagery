@@ -28,8 +28,8 @@ class MultiThresholdMeasures(Metric):
 
         tp = y_pred * y == 1
         tn = y_pred + y == 0
-        fp = y_pred - y == 1
-        fn = y - y_pred == 1
+        fp = y_pred.int() - y == 1
+        fn = y - y_pred.int() == 1
 
         self._tp += torch.sum(tp, dim=[0,1]).float()
         self._tn += torch.sum(tn, dim=[0,1]).float()
@@ -61,6 +61,9 @@ class Accuracy(Metric):
         super(Accuracy, self).__init__()
         self.multi_thrs_measure = multi_thrs_measure
 
+    def reset(self):
+        return
+
     def update(self, output):
         return
 
@@ -73,6 +76,9 @@ class IoU(Metric):
         super(IoU, self).__init__()
         self.multi_thrs_measure = multi_thrs_measure
 
+    def reset(self):
+        return
+    
     def update(self, output):
         return
 
@@ -84,6 +90,9 @@ class F1score(Metric):
     def __init__(self, multi_thrs_measure):
         super(F1score, self).__init__()
         self.multi_thrs_measure = multi_thrs_measure
+
+    def reset(self):
+        return
 
     def update(self, output):
         return
